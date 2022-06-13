@@ -1,19 +1,20 @@
+// SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
 import "./OracleInterface.sol";
-
+import "./Ownable.sol";
 
 /// @title Commitments
 /// @author Oliver Song
 /// @notice Takes commitments and handles payouts for bill outcomes
-contract Commitments {
-
+contract Commitments is Ownable {
     // mappings
     mapping(address => bytes32[]) private userToCommitments;
     mapping(bytes32 => Commitment[]) private billToCommitments;
 
     // bill outcomes oracle
-    OracleInterface internal billOracle = new OracleInterface();
+    address internal billOracleAddr = address(0);
+    OracleInterface internal billOracle = OracleInterface(billOracleAddr);
 
     //constants
     uint internal minimumCommitment = 1000000000000;
@@ -43,7 +44,6 @@ contract Commitments {
         return true;
     }
 
-
     /// @notice gets a list ids of all currently commitable bill
     /// @return array of bill ids
     function getCommitableBills() public view returns (bytes32[] memory) {
@@ -54,12 +54,8 @@ contract Commitments {
     /// @param _billId the id of the desired bill
     function getBill(bytes32 _billId) public view returns (
         bytes32 id,
-        bytes32 amendsBill,
         string memory sponsor,
         uint dateOfIntroduction,
-        string memory committees,
-        string memory latestAction,
-        uint latestActionDate,
         string memory title,
         string memory legislationNumber,
         OracleInterface.BillOutcome outcome) {
@@ -70,12 +66,8 @@ contract Commitments {
     /// @notice returns the full data of the most recent commitable bill
     function getMostRecentBill() public view returns (
         bytes32 id,
-        bytes32 amendsBill,
         string memory sponsor,
         uint dateOfIntroduction,
-        string memory committees,
-        string memory latestAction,
-        uint latestActionDate,
         string memory title,
         string memory legislationNumber,
         OracleInterface.BillOutcome outcome) {
@@ -112,9 +104,25 @@ contract Commitments {
         userCommitments.push(_billId);
     }
 
-    /// @notice for testing only; adds two numbers and returns result
-    /// @return uint sum of two uints
-    function test(uint a, uint b) public pure returns (uint) {
-        return (a + b);
+    /// @notice sets the address of the oracle contract to use
+    /// @dev setting a wrong address may result in false return value, or error
+    /// @param _oracleAddress the address of the oracle
+    /// @return true if connection to the new oracle address was successful
+    function setOracleAddress(address _oracleAddress) external onlyOwner returns (bool) {
+        billOracleAddr = _oracleAddress;
+        billOracle = OracleInterface(billOracleAddr);
+        return billOracle.testConnection();
+    }
+
+    /// @notice gets the address of the oracle being used
+    /// @return the address of the currently set oracle
+    function getOracleAddress() external view returns (address) {
+        return billOracleAddr;
+    }
+
+    /// @notice for testing; tests that the oracle is callable
+    /// @return true if connection successful
+    function testOracleConnection() public view returns (bool) {
+        return billOracle.testConnection();
     }
 }
