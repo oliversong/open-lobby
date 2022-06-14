@@ -32,7 +32,6 @@ contract Commitments is Ownable {
     /// @param _inSupport commitment in favor of bill passing (vs against)
     /// @return true if the given user has already placed a commitment on the given bill
     function _commitmentIsValid(address _user, bytes32 _billId, bool _inSupport) private view returns (bool) {
-
         return true;
     }
 
@@ -40,7 +39,6 @@ contract Commitments is Ownable {
     /// @param _billId id of a bill
     /// @return true if the bill is commitable
     function _billOpenForCommitment(bytes32 _billId) private view returns (bool) {
-
         return true;
     }
 
@@ -52,26 +50,12 @@ contract Commitments is Ownable {
 
     /// @notice returns the full data of the specified bill
     /// @param _billId the id of the desired bill
-    function getBill(bytes32 _billId) public view returns (
-        bytes32 id,
-        string memory sponsor,
-        uint dateOfIntroduction,
-        string memory title,
-        string memory legislationNumber,
-        OracleInterface.BillOutcome outcome) {
-
+    function getBill(bytes32 _billId) public view returns (OracleInterface.Bill memory) {
         return billOracle.getBill(_billId);
     }
 
     /// @notice returns the full data of the most recent commitable bill
-    function getMostRecentBill() public view returns (
-        bytes32 id,
-        string memory sponsor,
-        uint dateOfIntroduction,
-        string memory title,
-        string memory legislationNumber,
-        OracleInterface.BillOutcome outcome) {
-
+    function getMostRecentBill() public view returns (OracleInterface.Bill memory) {
         return billOracle.getMostRecentBill(true);
     }
 

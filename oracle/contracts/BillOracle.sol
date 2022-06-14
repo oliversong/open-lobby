@@ -1,4 +1,5 @@
 pragma solidity >=0.4.22 <0.9.0;
+pragma experimental ABIEncoderV2;
 
 import "./Ownable.sol";
 import "./DateLib.sol";
@@ -169,49 +170,14 @@ contract BillOracle is Ownable {
 
     /// @notice gets the specified bill
     /// @param _billId the unique id of the desired bill
-    function getBill(bytes32 _billId) public view returns (
-        bytes32 id,
-        string memory sponsor,
-        uint dateOfIntroduction,
-        string memory title,
-        string memory legislationNumber,
-        BillOutcome outcome) {
-
-        // get the bill
-        if (billExists(_billId)) {
-            Bill storage theBill = bills[_getBillIndex(_billId)];
-            return (theBill.id, theBill.sponsor, theBill.dateOfIntroduction, theBill.title, theBill.legislationNumber, theBill.outcome);
-        }
-        else {
-            return (_billId, "", 0, "", "", BillOutcome.Pending);
-        }
-    }
-
-    function getAdditionalBillInfo(bytes32 _billId) public view returns (
-        string memory amendsBill,
-        string memory committees,
-        string memory latestAction,
-        uint latestActionDate) {
-
-        // get the bill
-        if (billExists(_billId)) {
-            Bill storage theBill = bills[_getBillIndex(_billId)];
-            return (theBill.amendsBill, theBill.committees, theBill.latestAction, theBill.latestActionDate);
-        }
-        else {
-            return ("", "", "", 0);
-        }
+    function getBill(bytes32 _billId) public view returns (Bill memory) {
+        require(billExists(_billId), "Bill does not exist");
+        return bills[_getBillIndex(_billId)];
     }
 
     /// @notice gets the most recent bill or pending bill
     /// @param _pending if true, will return only the most recent pending bill; otherwise, returns the most recent bill either pending or completed
-    function getMostRecentBill(bool _pending) public view returns (
-        bytes32 id,
-        string memory sponsor,
-        uint dateOfIntroduction,
-        string memory title,
-        string memory legislationNumber,
-        BillOutcome outcome) {
+    function getMostRecentBill(bool _pending) public view returns (Bill memory) {
 
         bytes32 billId = 0;
         bytes32[] memory ids;
