@@ -29,16 +29,16 @@ contract Commitments is Ownable {
     /// @notice determines whether or not the user has already committed to the given bill
     /// @param _user address of a user
     /// @param _billId id of a bill
-    /// @param _inSupport commitment in favor of bill passing (vs against)
     /// @return true if the given user has already placed a commitment on the given bill
-    function _commitmentIsValid(address _user, bytes32 _billId, bool _inSupport) private view returns (bool) {
-        return true;
-    }
-
-    /// @notice determines whether or not commitments may still be accepted for the given bill
-    /// @param _billId id of a bill
-    /// @return true if the bill is commitable
-    function _billOpenForCommitment(bytes32 _billId) private view returns (bool) {
+    function _commitmentIsValid(address _user, bytes32 _billId) private view returns (bool) {
+        bytes32[] storage userCommitments = userToCommitments[msg.sender];
+        if (userCommitments.length > 0) {
+            for (uint n = 0; n < userCommitments.length; n++) {
+                if (userBets[n] == _billId) {
+                    return false
+                }
+            }
+        }
         return true;
     }
 
@@ -59,6 +59,25 @@ contract Commitments is Ownable {
         return billOracle.getMostRecentBill(true);
     }
 
+    /// @notice gets the current bills on which the user has commitments
+    /// @return array of bill ids
+    function getUserCommitments() public view returns (bytes32[]) {
+        return userToCommitments[msg.sender];
+    }
+
+    /// @notice gets a user's commitment
+    /// @param _billId the id of the desired bill
+    /// @return tuple containing the commitment amount, and the pass result (or (0,0) if no bet found)
+    function getUserCommitment(bytes32 _billId) public view returns (uint amount, bool inSupport) {
+        Commitment[] storage commitments = billToCommitments[_billId];
+        for (uint n = 0; n < commitments.length; n++) {
+            if (commitments[n].user == msg.sender) {
+                return (commitments[n].amount, bets[n].inSupport);
+            }
+        }
+        return (0, false);
+    }
+
     /// @notice places a non-rescindable commitment on the given bill
     /// @param _billId the id of the bill on which to commitment
     /// @param _inSupport commitment in favor of bill passing (vs against)
@@ -74,10 +93,10 @@ contract Commitments is Ownable {
         require(_commitmentIsValid(msg.sender, _billId, _inSupport), "Commitment is not valid");
 
         // bill must still be open for commitment
-        require(_billOpenForCommitment(_billId), "Bill not open for commitment");
+        require(billOracle.billIsPending(_billId), "Bill not open for commitment");
 
         // transfer the money into the account
-        // address(this).transfer(msg.value);
+        address(this).transfer(msg.value);
 
         // add the new commitment
         Commitment[] storage commitments = billToCommitments[_billId];
