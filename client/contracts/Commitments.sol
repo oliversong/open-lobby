@@ -3,6 +3,7 @@ pragma solidity >=0.4.22 <0.9.0;
 
 import "./OracleInterface.sol";
 import "./Ownable.sol";
+import "./SafeMath.sol";
 
 /// @title Commitments
 /// @author Oliver Song
@@ -11,6 +12,7 @@ contract Commitments is Ownable {
     // mappings
     mapping(address => bytes32[]) private userToCommitments;
     mapping(bytes32 => Commitment[]) private billToCommitments;
+    mapping(bytes32 => bool) internal billPaidOut;
 
     // bill outcomes oracle
     address internal billOracleAddr = address(0);
@@ -18,6 +20,10 @@ contract Commitments is Ownable {
 
     //constants
     uint internal minimumCommitment = 1000000000000;
+    uint internal housePercentage = 1;
+    uint internal multFactor = 1000000; // shortcut for doing floating point math
+
+    using SafeMath for uint;
 
     struct Commitment {
         address user;
@@ -106,6 +112,145 @@ contract Commitments is Ownable {
         bytes32[] storage userCommitments = userToCommitments[msg.sender];
         userCommitments.push(_billId);
     }
+
+    function _payOutWinnings(address _user, uint _amount) private {
+        _user.transfer(_amount);
+    }
+
+    function _transferToHouse() private {
+        owner.transfer(address(this).balance);
+    }
+
+    function _isWinningCommitment(OracleInterface.BillOutcome _outcome, bool inSupport) private pure returns (bool) {
+        require(_outcome != OracleInterface.BillOutcome.Pending);
+
+        if (_outcome == OracleInterface.BillOutcome.BecameLaw) {
+            if (inSupport) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            if (inSupport) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+
+    /// @notice calculates the amount to be paid out for a commitment
+    /// @param _winningTotal the total monetary amount of winning commitments
+    /// @param _losingTotal the total monetary amount of losing commitments
+    /// @param _committedAmount the amount of this particular commitment
+    /// @return an amount in wei
+    function _calculatePayout(uint _winningTotal, uint _losingTotal, uint _committedAmount, bool _keepCommitment) private view returns (uint) {
+        require(_outcome != OracleInterface.BillOutcome.Pending);
+
+        uint percentWinningTotal = (_committedAmount.mul(multFactor)).div(_winningTotal);
+
+        // calculate raw share
+        uint winningAmount = 0
+        if (_keepCommitment) {
+            winningAmount = _losingTotal.mul(percentWinningTotal).div(multFactor) + _committedAmount;
+        } else {
+            winningAmount = _losingTotal.mul(percentWinningTotal).div(multFactor)
+        }
+
+        // if share has been rounded down to zero, fix that
+        if (winningAmount == 0) {
+            winningAmount = minimumCommitment;
+        }
+
+        // take out house cut
+        winningsMinusHouseCut = winningAmount * (100 - housePercentage) / 100;
+        return winningsMinusHouseCut;
+    }
+
+    /// @notice calculates how much to pay out to each winner, then pays each winner the appropriate amount
+    /// @param _matchId the unique id of the bill
+    /// @param _outcome the bill's outcome
+    function _payOutForBill(bytes32 _billId, OracleInterface.BillOutcome _outcome) private {
+        Commitment[] storage commitments = billToCommitments[_billId];
+        uint losingTotal = 0;
+        uint winningTotal = 0;
+        uint totalPot = 0;
+        uint[] memory payouts = new uint[](commitments.length);
+
+        //count winning commitments & get total
+        for (uint n = 0; n < commitments.length; n++) {
+            uint amount = commitments[n].amount;
+            if (_isWinningCommitment(_outcome, commitments[n].inSupport)) {
+                winningTotal = winningTotal.add(amount);
+            } else {
+                losingTotal = losingTotal.add(amount);
+            }
+        }
+        totalPot = losingTotal.add(winningTotal);
+
+        //calculate payouts
+        for (uint n = 0; n < commitments.length; n++) {
+            if (_outcome == OracleInterface.BillOutcome.BecameLaw) {
+                // in the passing case, supporters get detractors' commitments
+                // minus their own commitment, which goes to legislator
+                if (_isWinningCommitment(_outcome, commitments[n].inSupport)) {
+                    payouts[n] = _calculatePayout(winningTotal, totalPot, commitments[n].amount, false);
+                } else {
+                    payouts[n] = 0;
+                }
+            } else {
+                // in the rejected case, detractors get supporters' commitments
+                // plus their own back. Legislators get nothing.
+                if (_isWinningCommitment(_outcome, commitments[n].inSupport)) {
+                    payouts[n] = _calculatePayout(winningTotal, totalPot, commitments[n].amount, true);
+                } else {
+                    payouts[n] = 0;
+                }
+            }
+        }
+
+        // calculate legislator payout
+        uint legislaterPayout = 0;
+        if (_outcome == OracleInterface.BillOutcome.BecameLaw) {
+            // legislator gets support total
+            legislaterPayout = winningTotal;
+        }
+
+
+        // pay out to users
+        for (uint n = 0; n < payouts.length; n++) {
+            _payOutWinnings(commitments[n].user, payouts[n]);
+        }
+
+        // pay out to legislators
+        OracleInterface.Bill b = getBill(_billId);
+        _payOutWinnings(b.sponsorAddress, legislaterPayout);
+
+        // transfer the remainder to the house
+        _transferToHouse();
+
+        // mark bill as paid out
+        billPaidOut[_billId] = true;
+    }
+
+
+    /// @notice check the outcome of the given bill; if ready, will trigger calculation of payout, and actual payout to winners
+    /// @param _billId the id of the bill to check
+    /// @return the outcome of the given bill
+    function checkOutcome(bytes32 _billId) public notDisabled returns (OracleInterface.BillOutcome)  {
+        OracleInterface.BillOutcome outcome;
+
+        b = boxingOracle.getBill(_billId);
+
+        if (b.outcome !== OracleInterface.BillOutcome.Pending) {
+            if (!billPaidOut[_billId]) {
+                _payOutForBill(_billId, outcome, winner);
+            }
+        }
+
+        return outcome;
+    }
+
 
     /// @notice sets the address of the oracle contract to use
     /// @dev setting a wrong address may result in false return value, or error

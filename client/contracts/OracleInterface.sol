@@ -7,6 +7,7 @@ abstract contract OracleInterface {
         bytes32 id;
         string amendsBill;
         string sponsor;
+        address sponsorAddress;
         uint dateOfIntroduction;
         string committees;
         string latestAction;
