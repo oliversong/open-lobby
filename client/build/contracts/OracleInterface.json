@@ -54,6 +54,25 @@
           "type": "bytes32"
         }
       ],
+      "name": "billIsPending",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "_billId",
+          "type": "bytes32"
+        }
+      ],
       "name": "getBill",
       "outputs": [
         {
@@ -72,6 +91,11 @@
               "internalType": "string",
               "name": "sponsor",
               "type": "string"
+            },
+            {
+              "internalType": "address",
+              "name": "sponsorAddress",
+              "type": "address"
             },
             {
               "internalType": "uint256",
@@ -145,6 +169,11 @@
               "type": "string"
             },
             {
+              "internalType": "address",
+              "name": "sponsorAddress",
+              "type": "address"
+            },
+            {
               "internalType": "uint256",
               "name": "dateOfIntroduction",
               "type": "uint256"
@@ -209,7 +238,7 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.8.14+commit.80d49f37\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"addTestData\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"_billId\",\"type\":\"bytes32\"}],\"name\":\"billExists\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getAllBills\",\"outputs\":[{\"internalType\":\"bytes32[]\",\"name\":\"\",\"type\":\"bytes32[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"_billId\",\"type\":\"bytes32\"}],\"name\":\"getBill\",\"outputs\":[{\"components\":[{\"internalType\":\"bytes32\",\"name\":\"id\",\"type\":\"bytes32\"},{\"internalType\":\"string\",\"name\":\"amendsBill\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"sponsor\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"dateOfIntroduction\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"committees\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"latestAction\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"latestActionDate\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"title\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"legislationNumber\",\"type\":\"string\"},{\"internalType\":\"enum OracleInterface.BillOutcome\",\"name\":\"outcome\",\"type\":\"uint8\"}],\"internalType\":\"struct OracleInterface.Bill\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bool\",\"name\":\"_pending\",\"type\":\"bool\"}],\"name\":\"getMostRecentBill\",\"outputs\":[{\"components\":[{\"internalType\":\"bytes32\",\"name\":\"id\",\"type\":\"bytes32\"},{\"internalType\":\"string\",\"name\":\"amendsBill\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"sponsor\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"dateOfIntroduction\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"committees\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"latestAction\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"latestActionDate\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"title\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"legislationNumber\",\"type\":\"string\"},{\"internalType\":\"enum OracleInterface.BillOutcome\",\"name\":\"outcome\",\"type\":\"uint8\"}],\"internalType\":\"struct OracleInterface.Bill\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getPendingBills\",\"outputs\":[{\"internalType\":\"bytes32[]\",\"name\":\"\",\"type\":\"bytes32[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"testConnection\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"pure\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/OracleInterface.sol\":\"OracleInterface\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/OracleInterface.sol\":{\"keccak256\":\"0x29b2bb28bceefd41fd5b8e436d697dc83a339c6a9d9373bc4b6ddc3cbc355e51\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://e85a164bb7d13a4b077435b6cdba1bed24798a10053956ec218b4d82caf895c9\",\"dweb:/ipfs/QmYPxoYmutGbx8XcgurDkMvy4jSGXuiRrfvQgn3A5X7ikM\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.14+commit.80d49f37\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"addTestData\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"_billId\",\"type\":\"bytes32\"}],\"name\":\"billExists\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"_billId\",\"type\":\"bytes32\"}],\"name\":\"billIsPending\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getAllBills\",\"outputs\":[{\"internalType\":\"bytes32[]\",\"name\":\"\",\"type\":\"bytes32[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"_billId\",\"type\":\"bytes32\"}],\"name\":\"getBill\",\"outputs\":[{\"components\":[{\"internalType\":\"bytes32\",\"name\":\"id\",\"type\":\"bytes32\"},{\"internalType\":\"string\",\"name\":\"amendsBill\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"sponsor\",\"type\":\"string\"},{\"internalType\":\"address\",\"name\":\"sponsorAddress\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"dateOfIntroduction\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"committees\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"latestAction\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"latestActionDate\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"title\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"legislationNumber\",\"type\":\"string\"},{\"internalType\":\"enum OracleInterface.BillOutcome\",\"name\":\"outcome\",\"type\":\"uint8\"}],\"internalType\":\"struct OracleInterface.Bill\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bool\",\"name\":\"_pending\",\"type\":\"bool\"}],\"name\":\"getMostRecentBill\",\"outputs\":[{\"components\":[{\"internalType\":\"bytes32\",\"name\":\"id\",\"type\":\"bytes32\"},{\"internalType\":\"string\",\"name\":\"amendsBill\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"sponsor\",\"type\":\"string\"},{\"internalType\":\"address\",\"name\":\"sponsorAddress\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"dateOfIntroduction\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"committees\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"latestAction\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"latestActionDate\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"title\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"legislationNumber\",\"type\":\"string\"},{\"internalType\":\"enum OracleInterface.BillOutcome\",\"name\":\"outcome\",\"type\":\"uint8\"}],\"internalType\":\"struct OracleInterface.Bill\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getPendingBills\",\"outputs\":[{\"internalType\":\"bytes32[]\",\"name\":\"\",\"type\":\"bytes32[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"testConnection\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"pure\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/OracleInterface.sol\":\"OracleInterface\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/OracleInterface.sol\":{\"keccak256\":\"0x9d17ef609e6ebca84e9a8da66ac02ffcc264b3a79dbb29c20e3d17f817bcb1db\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://dec4067801bed41ab460f7b943b1f0556ff3d2b26077aa1d4e7e430a5f5ce749\",\"dweb:/ipfs/QmXSdwyMqsPtD1vVuepW9Y1Te64vDMpQfCDfGxUTbPwcrN\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "immutableReferences": {},
@@ -217,21 +246,21 @@
   "deployedGeneratedSources": [],
   "sourceMap": "",
   "deployedSourceMap": "",
-  "source": "// SPDX-License-Identifier: MIT\npragma solidity >=0.4.22 <0.9.0;\n\nabstract contract OracleInterface {\n    // defines a bill along with its outcome\n    struct Bill {\n        bytes32 id;\n        string amendsBill;\n        string sponsor;\n        uint dateOfIntroduction;\n        string committees;\n        string latestAction;\n        uint latestActionDate;\n        string title;\n        string legislationNumber;\n        BillOutcome outcome;\n    }\n\n    enum BillOutcome {\n        Pending,\n        BecameLaw,\n        TimedOut\n    }\n\n    function getPendingBills() public virtual view returns (bytes32[] memory);\n\n    function getAllBills() public virtual view returns (bytes32[] memory);\n\n    function billExists(bytes32 _billId) public virtual view returns (bool);\n\n    function getBill(bytes32 _billId) public virtual view returns (Bill memory);\n\n    function getMostRecentBill(bool _pending) public virtual view returns (Bill memory);\n\n    function testConnection() public virtual pure returns (bool);\n\n    function addTestData() public virtual;\n}\n",
+  "source": "// SPDX-License-Identifier: MIT\npragma solidity >=0.4.22 <0.9.0;\n\nabstract contract OracleInterface {\n    // defines a bill along with its outcome\n    struct Bill {\n        bytes32 id;\n        string amendsBill;\n        string sponsor;\n        address sponsorAddress;\n        uint dateOfIntroduction;\n        string committees;\n        string latestAction;\n        uint latestActionDate;\n        string title;\n        string legislationNumber;\n        BillOutcome outcome;\n    }\n\n    enum BillOutcome {\n        Pending,\n        BecameLaw,\n        TimedOut\n    }\n\n    function getPendingBills() public virtual view returns (bytes32[] memory);\n\n    function getAllBills() public virtual view returns (bytes32[] memory);\n\n    function billExists(bytes32 _billId) public virtual view returns (bool);\n\n    function billIsPending(bytes32 _billId) public virtual view returns (bool);\n\n    function getBill(bytes32 _billId) public virtual view returns (Bill memory);\n\n    function getMostRecentBill(bool _pending) public virtual view returns (Bill memory);\n\n    function testConnection() public virtual pure returns (bool);\n\n    function addTestData() public virtual;\n}\n",
   "sourcePath": "/Users/oliversong/Development/open-lobby/client/contracts/OracleInterface.sol",
   "ast": {
     "absolutePath": "project:/contracts/OracleInterface.sol",
     "exportedSymbols": {
       "OracleInterface": [
-        305
+        910
       ]
     },
-    "id": 306,
+    "id": 911,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 235,
+        "id": 831,
         "literals": [
           "solidity",
           ">=",
@@ -242,7 +271,7 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "32:32:1"
+        "src": "32:32:2"
       },
       {
         "abstract": true,
@@ -251,27 +280,27 @@
         "contractDependencies": [],
         "contractKind": "contract",
         "fullyImplemented": false,
-        "id": 305,
+        "id": 910,
         "linearizedBaseContracts": [
-          305
+          910
         ],
         "name": "OracleInterface",
-        "nameLocation": "84:15:1",
+        "nameLocation": "84:15:2",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "canonicalName": "OracleInterface.Bill",
-            "id": 257,
+            "id": 855,
             "members": [
               {
                 "constant": false,
-                "id": 237,
+                "id": 833,
                 "mutability": "mutable",
                 "name": "id",
-                "nameLocation": "181:2:1",
+                "nameLocation": "181:2:2",
                 "nodeType": "VariableDeclaration",
-                "scope": 257,
-                "src": "173:10:1",
+                "scope": 855,
+                "src": "173:10:2",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -279,10 +308,10 @@
                   "typeString": "bytes32"
                 },
                 "typeName": {
-                  "id": 236,
+                  "id": 832,
                   "name": "bytes32",
                   "nodeType": "ElementaryTypeName",
-                  "src": "173:7:1",
+                  "src": "173:7:2",
                   "typeDescriptions": {
                     "typeIdentifier": "t_bytes32",
                     "typeString": "bytes32"
@@ -292,13 +321,13 @@
               },
               {
                 "constant": false,
-                "id": 239,
+                "id": 835,
                 "mutability": "mutable",
                 "name": "amendsBill",
-                "nameLocation": "200:10:1",
+                "nameLocation": "200:10:2",
                 "nodeType": "VariableDeclaration",
-                "scope": 257,
-                "src": "193:17:1",
+                "scope": 855,
+                "src": "193:17:2",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -306,10 +335,10 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 238,
+                  "id": 834,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
-                  "src": "193:6:1",
+                  "src": "193:6:2",
                   "typeDescriptions": {
                     "typeIdentifier": "t_string_storage_ptr",
                     "typeString": "string"
@@ -319,13 +348,13 @@
               },
               {
                 "constant": false,
-                "id": 241,
+                "id": 837,
                 "mutability": "mutable",
                 "name": "sponsor",
-                "nameLocation": "227:7:1",
+                "nameLocation": "227:7:2",
                 "nodeType": "VariableDeclaration",
-                "scope": 257,
-                "src": "220:14:1",
+                "scope": 855,
+                "src": "220:14:2",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -333,10 +362,10 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 240,
+                  "id": 836,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
-                  "src": "220:6:1",
+                  "src": "220:6:2",
                   "typeDescriptions": {
                     "typeIdentifier": "t_string_storage_ptr",
                     "typeString": "string"
@@ -346,13 +375,41 @@
               },
               {
                 "constant": false,
-                "id": 243,
+                "id": 839,
+                "mutability": "mutable",
+                "name": "sponsorAddress",
+                "nameLocation": "252:14:2",
+                "nodeType": "VariableDeclaration",
+                "scope": 855,
+                "src": "244:22:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 838,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "244:7:2",
+                  "stateMutability": "nonpayable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 841,
                 "mutability": "mutable",
                 "name": "dateOfIntroduction",
-                "nameLocation": "249:18:1",
+                "nameLocation": "281:18:2",
                 "nodeType": "VariableDeclaration",
-                "scope": 257,
-                "src": "244:23:1",
+                "scope": 855,
+                "src": "276:23:2",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -360,10 +417,10 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 242,
+                  "id": 840,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
-                  "src": "244:4:1",
+                  "src": "276:4:2",
                   "typeDescriptions": {
                     "typeIdentifier": "t_uint256",
                     "typeString": "uint256"
@@ -373,13 +430,13 @@
               },
               {
                 "constant": false,
-                "id": 245,
+                "id": 843,
                 "mutability": "mutable",
                 "name": "committees",
-                "nameLocation": "284:10:1",
+                "nameLocation": "316:10:2",
                 "nodeType": "VariableDeclaration",
-                "scope": 257,
-                "src": "277:17:1",
+                "scope": 855,
+                "src": "309:17:2",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -387,10 +444,10 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 244,
+                  "id": 842,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
-                  "src": "277:6:1",
+                  "src": "309:6:2",
                   "typeDescriptions": {
                     "typeIdentifier": "t_string_storage_ptr",
                     "typeString": "string"
@@ -400,13 +457,13 @@
               },
               {
                 "constant": false,
-                "id": 247,
+                "id": 845,
                 "mutability": "mutable",
                 "name": "latestAction",
-                "nameLocation": "311:12:1",
+                "nameLocation": "343:12:2",
                 "nodeType": "VariableDeclaration",
-                "scope": 257,
-                "src": "304:19:1",
+                "scope": 855,
+                "src": "336:19:2",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -414,10 +471,10 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 246,
+                  "id": 844,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
-                  "src": "304:6:1",
+                  "src": "336:6:2",
                   "typeDescriptions": {
                     "typeIdentifier": "t_string_storage_ptr",
                     "typeString": "string"
@@ -427,13 +484,13 @@
               },
               {
                 "constant": false,
-                "id": 249,
+                "id": 847,
                 "mutability": "mutable",
                 "name": "latestActionDate",
-                "nameLocation": "338:16:1",
+                "nameLocation": "370:16:2",
                 "nodeType": "VariableDeclaration",
-                "scope": 257,
-                "src": "333:21:1",
+                "scope": 855,
+                "src": "365:21:2",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -441,10 +498,10 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 248,
+                  "id": 846,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
-                  "src": "333:4:1",
+                  "src": "365:4:2",
                   "typeDescriptions": {
                     "typeIdentifier": "t_uint256",
                     "typeString": "uint256"
@@ -454,13 +511,13 @@
               },
               {
                 "constant": false,
-                "id": 251,
+                "id": 849,
                 "mutability": "mutable",
                 "name": "title",
-                "nameLocation": "371:5:1",
+                "nameLocation": "403:5:2",
                 "nodeType": "VariableDeclaration",
-                "scope": 257,
-                "src": "364:12:1",
+                "scope": 855,
+                "src": "396:12:2",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -468,10 +525,10 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 250,
+                  "id": 848,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
-                  "src": "364:6:1",
+                  "src": "396:6:2",
                   "typeDescriptions": {
                     "typeIdentifier": "t_string_storage_ptr",
                     "typeString": "string"
@@ -481,13 +538,13 @@
               },
               {
                 "constant": false,
-                "id": 253,
+                "id": 851,
                 "mutability": "mutable",
                 "name": "legislationNumber",
-                "nameLocation": "393:17:1",
+                "nameLocation": "425:17:2",
                 "nodeType": "VariableDeclaration",
-                "scope": 257,
-                "src": "386:24:1",
+                "scope": 855,
+                "src": "418:24:2",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -495,10 +552,10 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 252,
+                  "id": 850,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
-                  "src": "386:6:1",
+                  "src": "418:6:2",
                   "typeDescriptions": {
                     "typeIdentifier": "t_string_storage_ptr",
                     "typeString": "string"
@@ -508,33 +565,33 @@
               },
               {
                 "constant": false,
-                "id": 256,
+                "id": 854,
                 "mutability": "mutable",
                 "name": "outcome",
-                "nameLocation": "432:7:1",
+                "nameLocation": "464:7:2",
                 "nodeType": "VariableDeclaration",
-                "scope": 257,
-                "src": "420:19:1",
+                "scope": 855,
+                "src": "452:19:2",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_enum$_BillOutcome_$261",
+                  "typeIdentifier": "t_enum$_BillOutcome_$859",
                   "typeString": "enum OracleInterface.BillOutcome"
                 },
                 "typeName": {
-                  "id": 255,
+                  "id": 853,
                   "nodeType": "UserDefinedTypeName",
                   "pathNode": {
-                    "id": 254,
+                    "id": 852,
                     "name": "BillOutcome",
                     "nodeType": "IdentifierPath",
-                    "referencedDeclaration": 261,
-                    "src": "420:11:1"
+                    "referencedDeclaration": 859,
+                    "src": "452:11:2"
                   },
-                  "referencedDeclaration": 261,
-                  "src": "420:11:1",
+                  "referencedDeclaration": 859,
+                  "src": "452:11:2",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_enum$_BillOutcome_$261",
+                    "typeIdentifier": "t_enum$_BillOutcome_$859",
                     "typeString": "enum OracleInterface.BillOutcome"
                   }
                 },
@@ -542,71 +599,71 @@
               }
             ],
             "name": "Bill",
-            "nameLocation": "158:4:1",
+            "nameLocation": "158:4:2",
             "nodeType": "StructDefinition",
-            "scope": 305,
-            "src": "151:295:1",
+            "scope": 910,
+            "src": "151:327:2",
             "visibility": "public"
           },
           {
             "canonicalName": "OracleInterface.BillOutcome",
-            "id": 261,
+            "id": 859,
             "members": [
               {
-                "id": 258,
+                "id": 856,
                 "name": "Pending",
-                "nameLocation": "479:7:1",
+                "nameLocation": "511:7:2",
                 "nodeType": "EnumValue",
-                "src": "479:7:1"
+                "src": "511:7:2"
               },
               {
-                "id": 259,
+                "id": 857,
                 "name": "BecameLaw",
-                "nameLocation": "496:9:1",
+                "nameLocation": "528:9:2",
                 "nodeType": "EnumValue",
-                "src": "496:9:1"
+                "src": "528:9:2"
               },
               {
-                "id": 260,
+                "id": 858,
                 "name": "TimedOut",
-                "nameLocation": "515:8:1",
+                "nameLocation": "547:8:2",
                 "nodeType": "EnumValue",
-                "src": "515:8:1"
+                "src": "547:8:2"
               }
             ],
             "name": "BillOutcome",
-            "nameLocation": "457:11:1",
+            "nameLocation": "489:11:2",
             "nodeType": "EnumDefinition",
-            "src": "452:77:1"
+            "src": "484:77:2"
           },
           {
             "functionSelector": "52d173a4",
-            "id": 267,
+            "id": 865,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "getPendingBills",
-            "nameLocation": "544:15:1",
+            "nameLocation": "576:15:2",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 262,
+              "id": 860,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "559:2:1"
+              "src": "591:2:2"
             },
             "returnParameters": {
-              "id": 266,
+              "id": 864,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 265,
+                  "id": 863,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 267,
-                  "src": "591:16:1",
+                  "scope": 865,
+                  "src": "623:16:2",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
@@ -615,18 +672,18 @@
                   },
                   "typeName": {
                     "baseType": {
-                      "id": 263,
+                      "id": 861,
                       "name": "bytes32",
                       "nodeType": "ElementaryTypeName",
-                      "src": "591:7:1",
+                      "src": "623:7:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_bytes32",
                         "typeString": "bytes32"
                       }
                     },
-                    "id": 264,
+                    "id": 862,
                     "nodeType": "ArrayTypeName",
-                    "src": "591:9:1",
+                    "src": "623:9:2",
                     "typeDescriptions": {
                       "typeIdentifier": "t_array$_t_bytes32_$dyn_storage_ptr",
                       "typeString": "bytes32[]"
@@ -635,42 +692,42 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "590:18:1"
+              "src": "622:18:2"
             },
-            "scope": 305,
-            "src": "535:74:1",
+            "scope": 910,
+            "src": "567:74:2",
             "stateMutability": "view",
             "virtual": true,
             "visibility": "public"
           },
           {
             "functionSelector": "818e1f1a",
-            "id": 273,
+            "id": 871,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "getAllBills",
-            "nameLocation": "624:11:1",
+            "nameLocation": "656:11:2",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 268,
+              "id": 866,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "635:2:1"
+              "src": "667:2:2"
             },
             "returnParameters": {
-              "id": 272,
+              "id": 870,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 271,
+                  "id": 869,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 273,
-                  "src": "667:16:1",
+                  "scope": 871,
+                  "src": "699:16:2",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
@@ -679,18 +736,18 @@
                   },
                   "typeName": {
                     "baseType": {
-                      "id": 269,
+                      "id": 867,
                       "name": "bytes32",
                       "nodeType": "ElementaryTypeName",
-                      "src": "667:7:1",
+                      "src": "699:7:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_bytes32",
                         "typeString": "bytes32"
                       }
                     },
-                    "id": 270,
+                    "id": 868,
                     "nodeType": "ArrayTypeName",
-                    "src": "667:9:1",
+                    "src": "699:9:2",
                     "typeDescriptions": {
                       "typeIdentifier": "t_array$_t_bytes32_$dyn_storage_ptr",
                       "typeString": "bytes32[]"
@@ -699,36 +756,36 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "666:18:1"
+              "src": "698:18:2"
             },
-            "scope": 305,
-            "src": "615:70:1",
+            "scope": 910,
+            "src": "647:70:2",
             "stateMutability": "view",
             "virtual": true,
             "visibility": "public"
           },
           {
             "functionSelector": "ffa378b1",
-            "id": 280,
+            "id": 878,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "billExists",
-            "nameLocation": "700:10:1",
+            "nameLocation": "732:10:2",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 276,
+              "id": 874,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 275,
+                  "id": 873,
                   "mutability": "mutable",
                   "name": "_billId",
-                  "nameLocation": "719:7:1",
+                  "nameLocation": "751:7:2",
                   "nodeType": "VariableDeclaration",
-                  "scope": 280,
-                  "src": "711:15:1",
+                  "scope": 878,
+                  "src": "743:15:2",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -736,10 +793,10 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 274,
+                    "id": 872,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
-                    "src": "711:7:1",
+                    "src": "743:7:2",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes32",
                       "typeString": "bytes32"
@@ -748,21 +805,21 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "710:17:1"
+              "src": "742:17:2"
             },
             "returnParameters": {
-              "id": 279,
+              "id": 877,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 278,
+                  "id": 876,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 280,
-                  "src": "757:4:1",
+                  "scope": 878,
+                  "src": "789:4:2",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -770,10 +827,10 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 277,
+                    "id": 875,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
-                    "src": "757:4:1",
+                    "src": "789:4:2",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
@@ -782,36 +839,119 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "756:6:1"
+              "src": "788:6:2"
             },
-            "scope": 305,
-            "src": "691:72:1",
+            "scope": 910,
+            "src": "723:72:2",
+            "stateMutability": "view",
+            "virtual": true,
+            "visibility": "public"
+          },
+          {
+            "functionSelector": "6c69a68c",
+            "id": 885,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "billIsPending",
+            "nameLocation": "810:13:2",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 881,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 880,
+                  "mutability": "mutable",
+                  "name": "_billId",
+                  "nameLocation": "832:7:2",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 885,
+                  "src": "824:15:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 879,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "824:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "823:17:2"
+            },
+            "returnParameters": {
+              "id": 884,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 883,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 885,
+                  "src": "870:4:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 882,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "870:4:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "869:6:2"
+            },
+            "scope": 910,
+            "src": "801:75:2",
             "stateMutability": "view",
             "virtual": true,
             "visibility": "public"
           },
           {
             "functionSelector": "342c196c",
-            "id": 288,
+            "id": 893,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "getBill",
-            "nameLocation": "778:7:1",
+            "nameLocation": "891:7:2",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 283,
+              "id": 888,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 282,
+                  "id": 887,
                   "mutability": "mutable",
                   "name": "_billId",
-                  "nameLocation": "794:7:1",
+                  "nameLocation": "907:7:2",
                   "nodeType": "VariableDeclaration",
-                  "scope": 288,
-                  "src": "786:15:1",
+                  "scope": 893,
+                  "src": "899:15:2",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -819,10 +959,10 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 281,
+                    "id": 886,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
-                    "src": "786:7:1",
+                    "src": "899:7:2",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes32",
                       "typeString": "bytes32"
@@ -831,77 +971,77 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "785:17:1"
+              "src": "898:17:2"
             },
             "returnParameters": {
-              "id": 287,
+              "id": 892,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 286,
+                  "id": 891,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 288,
-                  "src": "832:11:1",
+                  "scope": 893,
+                  "src": "945:11:2",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_Bill_$257_memory_ptr",
+                    "typeIdentifier": "t_struct$_Bill_$855_memory_ptr",
                     "typeString": "struct OracleInterface.Bill"
                   },
                   "typeName": {
-                    "id": 285,
+                    "id": 890,
                     "nodeType": "UserDefinedTypeName",
                     "pathNode": {
-                      "id": 284,
+                      "id": 889,
                       "name": "Bill",
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 257,
-                      "src": "832:4:1"
+                      "referencedDeclaration": 855,
+                      "src": "945:4:2"
                     },
-                    "referencedDeclaration": 257,
-                    "src": "832:4:1",
+                    "referencedDeclaration": 855,
+                    "src": "945:4:2",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_Bill_$257_storage_ptr",
+                      "typeIdentifier": "t_struct$_Bill_$855_storage_ptr",
                       "typeString": "struct OracleInterface.Bill"
                     }
                   },
                   "visibility": "internal"
                 }
               ],
-              "src": "831:13:1"
+              "src": "944:13:2"
             },
-            "scope": 305,
-            "src": "769:76:1",
+            "scope": 910,
+            "src": "882:76:2",
             "stateMutability": "view",
             "virtual": true,
             "visibility": "public"
           },
           {
             "functionSelector": "b6f0623f",
-            "id": 296,
+            "id": 901,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "getMostRecentBill",
-            "nameLocation": "860:17:1",
+            "nameLocation": "973:17:2",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 291,
+              "id": 896,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 290,
+                  "id": 895,
                   "mutability": "mutable",
                   "name": "_pending",
-                  "nameLocation": "883:8:1",
+                  "nameLocation": "996:8:2",
                   "nodeType": "VariableDeclaration",
-                  "scope": 296,
-                  "src": "878:13:1",
+                  "scope": 901,
+                  "src": "991:13:2",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -909,10 +1049,10 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 289,
+                    "id": 894,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
-                    "src": "878:4:1",
+                    "src": "991:4:2",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
@@ -921,83 +1061,83 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "877:15:1"
+              "src": "990:15:2"
             },
             "returnParameters": {
-              "id": 295,
+              "id": 900,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 294,
+                  "id": 899,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 296,
-                  "src": "922:11:1",
+                  "scope": 901,
+                  "src": "1035:11:2",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_Bill_$257_memory_ptr",
+                    "typeIdentifier": "t_struct$_Bill_$855_memory_ptr",
                     "typeString": "struct OracleInterface.Bill"
                   },
                   "typeName": {
-                    "id": 293,
+                    "id": 898,
                     "nodeType": "UserDefinedTypeName",
                     "pathNode": {
-                      "id": 292,
+                      "id": 897,
                       "name": "Bill",
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 257,
-                      "src": "922:4:1"
+                      "referencedDeclaration": 855,
+                      "src": "1035:4:2"
                     },
-                    "referencedDeclaration": 257,
-                    "src": "922:4:1",
+                    "referencedDeclaration": 855,
+                    "src": "1035:4:2",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_Bill_$257_storage_ptr",
+                      "typeIdentifier": "t_struct$_Bill_$855_storage_ptr",
                       "typeString": "struct OracleInterface.Bill"
                     }
                   },
                   "visibility": "internal"
                 }
               ],
-              "src": "921:13:1"
+              "src": "1034:13:2"
             },
-            "scope": 305,
-            "src": "851:84:1",
+            "scope": 910,
+            "src": "964:84:2",
             "stateMutability": "view",
             "virtual": true,
             "visibility": "public"
           },
           {
             "functionSelector": "3412a15c",
-            "id": 301,
+            "id": 906,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "testConnection",
-            "nameLocation": "950:14:1",
+            "nameLocation": "1063:14:2",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 297,
+              "id": 902,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "964:2:1"
+              "src": "1077:2:2"
             },
             "returnParameters": {
-              "id": 300,
+              "id": 905,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 299,
+                  "id": 904,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 301,
-                  "src": "996:4:1",
+                  "scope": 906,
+                  "src": "1109:4:2",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1005,10 +1145,10 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 298,
+                    "id": 903,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
-                    "src": "996:4:1",
+                    "src": "1109:4:2",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
@@ -1017,48 +1157,48 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "995:6:1"
+              "src": "1108:6:2"
             },
-            "scope": 305,
-            "src": "941:61:1",
+            "scope": 910,
+            "src": "1054:61:2",
             "stateMutability": "pure",
             "virtual": true,
             "visibility": "public"
           },
           {
             "functionSelector": "a212b454",
-            "id": 304,
+            "id": 909,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "addTestData",
-            "nameLocation": "1017:11:1",
+            "nameLocation": "1130:11:2",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 302,
+              "id": 907,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "1028:2:1"
+              "src": "1141:2:2"
             },
             "returnParameters": {
-              "id": 303,
+              "id": 908,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "1045:0:1"
+              "src": "1158:0:2"
             },
-            "scope": 305,
-            "src": "1008:38:1",
+            "scope": 910,
+            "src": "1121:38:2",
             "stateMutability": "nonpayable",
             "virtual": true,
             "visibility": "public"
           }
         ],
-        "scope": 306,
-        "src": "66:982:1",
+        "scope": 911,
+        "src": "66:1095:2",
         "usedErrors": []
       }
     ],
-    "src": "32:1017:1"
+    "src": "32:1130:2"
   },
   "compiler": {
     "name": "solc",
@@ -1066,7 +1206,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.7",
-  "updatedAt": "2022-06-14T00:24:11.357Z",
+  "updatedAt": "2022-07-07T02:02:29.976Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

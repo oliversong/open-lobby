@@ -29,6 +29,8 @@ abstract contract OracleInterface {
 
     function billExists(bytes32 _billId) public virtual view returns (bool);
 
+    function billIsPending(bytes32 _billId) public virtual view returns (bool);
+
     function getBill(bytes32 _billId) public virtual view returns (Bill memory);
 
     function getMostRecentBill(bool _pending) public virtual view returns (Bill memory);

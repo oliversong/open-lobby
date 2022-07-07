@@ -93,7 +93,7 @@ contract BillOracle is Ownable {
         if (index <= 0) {
             return false;
         }
-        Bill b = bills[index];
+        Bill memory b = bills[index];
         if (b.outcome == BillOutcome.Pending) {
           return true;
         }
@@ -106,7 +106,7 @@ contract BillOracle is Ownable {
     function addBill(
         string memory _amendsBill,
         string memory _sponsor,
-        address memory _sponsorAddress,
+        address _sponsorAddress,
         uint _dateOfIntroduction,
         string memory _committees,
         string memory _latestAction,
@@ -229,7 +229,7 @@ contract BillOracle is Ownable {
 
     /// @notice for testing
     function addTestData() external onlyOwner {
-        address testAddress = address(keccak256(abi.encodePacked(now)));
+        address testAddress = address(uint256(keccak256(abi.encodePacked(now))));
         addBill("", "George Clooney", testAddress, DateLib.DateTime(2022, 1, 20, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to do the thing", "m23t4930gj");
         addBill("", "Bill Nye", testAddress, DateLib.DateTime(2022, 5, 20, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to do the other thing", "r30t294gr");
         addBill("", "Adam Driver", testAddress, DateLib.DateTime(2022, 1, 19, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to do the other other thing", "i230t94jgre");

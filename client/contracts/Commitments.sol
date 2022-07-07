@@ -37,11 +37,11 @@ contract Commitments is Ownable {
     /// @param _billId id of a bill
     /// @return true if the given user has already placed a commitment on the given bill
     function _commitmentIsValid(address _user, bytes32 _billId) private view returns (bool) {
-        bytes32[] storage userCommitments = userToCommitments[msg.sender];
+        bytes32[] storage userCommitments = userToCommitments[_user];
         if (userCommitments.length > 0) {
             for (uint n = 0; n < userCommitments.length; n++) {
-                if (userBets[n] == _billId) {
-                    return false
+                if (userCommitments[n] == _billId) {
+                    return false;
                 }
             }
         }
@@ -67,27 +67,30 @@ contract Commitments is Ownable {
 
     /// @notice gets the current bills on which the user has commitments
     /// @return array of bill ids
-    function getUserCommitments() public view returns (bytes32[]) {
+    function getUserCommitments() public view returns (bytes32[] memory) {
         return userToCommitments[msg.sender];
     }
 
     /// @notice gets a user's commitment
     /// @param _billId the id of the desired bill
-    /// @return tuple containing the commitment amount, and the pass result (or (0,0) if no bet found)
+    /// @return amount commitment amount, or 0 if no commitment found
+    /// @return inSupport in support of bill or not, or 0 if no commitment found
     function getUserCommitment(bytes32 _billId) public view returns (uint amount, bool inSupport) {
         Commitment[] storage commitments = billToCommitments[_billId];
         for (uint n = 0; n < commitments.length; n++) {
             if (commitments[n].user == msg.sender) {
-                return (commitments[n].amount, bets[n].inSupport);
+                return (commitments[n].amount, commitments[n].inSupport);
             }
         }
         return (0, false);
     }
 
     /// @notice places a non-rescindable commitment on the given bill
+    /// @param _amount the id of the bill on which to commitment
     /// @param _billId the id of the bill on which to commitment
     /// @param _inSupport commitment in favor of bill passing (vs against)
-    function placeCommitment(bytes32 _billId, bool _inSupport) public payable {
+    function placeCommitment(uint32 _amount, bytes32 _billId, bool _inSupport) public payable {
+        require(msg.value == _amount);
 
         // commitment must be above a certain minimum
         require(msg.value >= minimumCommitment, "Commitment amount must be >= minimum commitment");
@@ -96,13 +99,10 @@ contract Commitments is Ownable {
         require(billOracle.billExists(_billId), "Specified bill not found");
 
         // validate
-        require(_commitmentIsValid(msg.sender, _billId, _inSupport), "Commitment is not valid");
+        require(_commitmentIsValid(msg.sender, _billId), "Commitment is not valid");
 
         // bill must still be open for commitment
         require(billOracle.billIsPending(_billId), "Bill not open for commitment");
-
-        // transfer the money into the account
-        address(this).transfer(msg.value);
 
         // add the new commitment
         Commitment[] storage commitments = billToCommitments[_billId];
@@ -114,11 +114,11 @@ contract Commitments is Ownable {
     }
 
     function _payOutWinnings(address _user, uint _amount) private {
-        _user.transfer(_amount);
+        payable(_user).transfer(_amount);
     }
 
     function _transferToHouse() private {
-        owner.transfer(address(this).balance);
+        payable(owner).transfer(address(this).balance);
     }
 
     function _isWinningCommitment(OracleInterface.BillOutcome _outcome, bool inSupport) private pure returns (bool) {
@@ -145,16 +145,14 @@ contract Commitments is Ownable {
     /// @param _committedAmount the amount of this particular commitment
     /// @return an amount in wei
     function _calculatePayout(uint _winningTotal, uint _losingTotal, uint _committedAmount, bool _keepCommitment) private view returns (uint) {
-        require(_outcome != OracleInterface.BillOutcome.Pending);
-
         uint percentWinningTotal = (_committedAmount.mul(multFactor)).div(_winningTotal);
 
         // calculate raw share
-        uint winningAmount = 0
+        uint winningAmount = 0;
         if (_keepCommitment) {
             winningAmount = _losingTotal.mul(percentWinningTotal).div(multFactor) + _committedAmount;
         } else {
-            winningAmount = _losingTotal.mul(percentWinningTotal).div(multFactor)
+            winningAmount = _losingTotal.mul(percentWinningTotal).div(multFactor);
         }
 
         // if share has been rounded down to zero, fix that
@@ -163,14 +161,16 @@ contract Commitments is Ownable {
         }
 
         // take out house cut
-        winningsMinusHouseCut = winningAmount * (100 - housePercentage) / 100;
+        uint winningsMinusHouseCut = winningAmount * (100 - housePercentage) / 100;
         return winningsMinusHouseCut;
     }
 
     /// @notice calculates how much to pay out to each winner, then pays each winner the appropriate amount
-    /// @param _matchId the unique id of the bill
+    /// @param _billId the unique id of the bill
     /// @param _outcome the bill's outcome
     function _payOutForBill(bytes32 _billId, OracleInterface.BillOutcome _outcome) private {
+        require(_outcome != OracleInterface.BillOutcome.Pending);
+
         Commitment[] storage commitments = billToCommitments[_billId];
         uint losingTotal = 0;
         uint winningTotal = 0;
@@ -223,7 +223,7 @@ contract Commitments is Ownable {
         }
 
         // pay out to legislators
-        OracleInterface.Bill b = getBill(_billId);
+        OracleInterface.Bill memory b = getBill(_billId);
         _payOutWinnings(b.sponsorAddress, legislaterPayout);
 
         // transfer the remainder to the house
@@ -240,11 +240,11 @@ contract Commitments is Ownable {
     function checkOutcome(bytes32 _billId) external onlyOwner returns (OracleInterface.BillOutcome)  {
         OracleInterface.BillOutcome outcome;
 
-        b = boxingOracle.getBill(_billId);
+        OracleInterface.Bill memory b = billOracle.getBill(_billId);
 
-        if (b.outcome !== OracleInterface.BillOutcome.Pending) {
+        if (b.outcome != OracleInterface.BillOutcome.Pending) {
             if (!billPaidOut[_billId]) {
-                _payOutForBill(_billId, outcome, winner);
+                _payOutForBill(_billId, outcome);
             }
         }
 
