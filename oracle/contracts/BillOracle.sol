@@ -142,6 +142,8 @@ contract BillOracle is Ownable {
 
         // set the outcome
         theBill.outcome = _outcome;
+
+        // TODO: trigger checkOutcome on commitments side? how?
     }
 
     /// @notice gets the unique ids of all pending bills, in reverse chronological order

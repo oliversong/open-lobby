@@ -237,7 +237,7 @@ contract Commitments is Ownable {
     /// @notice check the outcome of the given bill; if ready, will trigger calculation of payout, and actual payout to winners
     /// @param _billId the id of the bill to check
     /// @return the outcome of the given bill
-    function checkOutcome(bytes32 _billId) public notDisabled returns (OracleInterface.BillOutcome)  {
+    function checkOutcome(bytes32 _billId) external onlyOwner returns (OracleInterface.BillOutcome)  {
         OracleInterface.BillOutcome outcome;
 
         b = boxingOracle.getBill(_billId);
