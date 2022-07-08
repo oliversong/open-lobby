@@ -20,8 +20,7 @@ contract Commitments is Ownable {
 
     //constants
     uint internal minimumCommitment = 1000000000000;  // 1000 gwei
-    uint internal housePercentage = 1;
-    uint internal multFactor = 1000000; // shortcut for doing floating point math
+    uint internal housePercentage = 2;
 
     using SafeMath for uint;
 
@@ -69,6 +68,13 @@ contract Commitments is Ownable {
     /// @return array of bill ids
     function getUserCommitments() public view returns (bytes32[] memory) {
         return userToCommitments[msg.sender];
+    }
+
+    /// @notice gets the current commitments for the bill
+    /// @param _billId the id of the desired bill
+    /// @return array of Commitments
+    function getBillCommitments(bytes32 _billId) public view returns (Commitment[] memory) {
+        return billToCommitments[_billId];
     }
 
     /// @notice gets a user's commitment
@@ -150,14 +156,14 @@ contract Commitments is Ownable {
     /// @param _committedAmount the amount of this particular commitment
     /// @return an amount in wei
     function _calculatePayout(uint _winningTotal, uint _losingTotal, uint _committedAmount, bool _keepCommitment) private view returns (uint) {
-        uint percentWinningTotal = (_committedAmount.mul(multFactor)).div(_winningTotal);
+        uint percentWinningTotal = _committedAmount.div(_winningTotal);
 
         // calculate raw share
         uint winningAmount = 0;
         if (_keepCommitment) {
-            winningAmount = _losingTotal.mul(percentWinningTotal).div(multFactor) + _committedAmount;
+            winningAmount = _losingTotal.mul(percentWinningTotal) + _committedAmount;
         } else {
-            winningAmount = _losingTotal.mul(percentWinningTotal).div(multFactor);
+            winningAmount = _losingTotal.mul(percentWinningTotal);
         }
 
         // if share has been rounded down to zero, fix that
@@ -166,8 +172,7 @@ contract Commitments is Ownable {
         }
 
         // take out house cut
-        uint winningsMinusHouseCut = winningAmount * (100 - housePercentage) / 100;
-        return winningsMinusHouseCut;
+        return winningAmount - winningAmount * housePercentage / 100;
     }
 
     /// @notice calculates how much to pay out to each winner, then pays each winner the appropriate amount
