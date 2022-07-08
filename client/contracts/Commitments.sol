@@ -19,7 +19,7 @@ contract Commitments is Ownable {
     OracleInterface internal billOracle = OracleInterface(billOracleAddr);
 
     //constants
-    uint internal minimumCommitment = 1000000000000;
+    uint internal minimumCommitment = 1000000000000;  // 1000 gwei
     uint internal housePercentage = 1;
     uint internal multFactor = 1000000; // shortcut for doing floating point math
 
@@ -76,12 +76,17 @@ contract Commitments is Ownable {
     /// @return amount commitment amount, or 0 if no commitment found
     /// @return inSupport in support of bill or not, or 0 if no commitment found
     function getUserCommitment(bytes32 _billId) public view returns (uint amount, bool inSupport) {
+        // FIXME: perhaps should iterate through usercommitments instead
+        // actually, probably shouldn't be iterating at all if possible
         Commitment[] storage commitments = billToCommitments[_billId];
         for (uint n = 0; n < commitments.length; n++) {
             if (commitments[n].user == msg.sender) {
                 return (commitments[n].amount, commitments[n].inSupport);
             }
         }
+        // FIXME could gate this with a require and instead
+        // add a method "userHasCommitment".
+        // Could also gate billid on existing bill
         return (0, false);
     }
 
@@ -89,7 +94,7 @@ contract Commitments is Ownable {
     /// @param _amount the id of the bill on which to commitment
     /// @param _billId the id of the bill on which to commitment
     /// @param _inSupport commitment in favor of bill passing (vs against)
-    function placeCommitment(uint32 _amount, bytes32 _billId, bool _inSupport) public payable {
+    function placeCommitment(uint _amount, bytes32 _billId, bool _inSupport) public payable {
         require(msg.value == _amount);
 
         // commitment must be above a certain minimum
@@ -223,8 +228,8 @@ contract Commitments is Ownable {
         }
 
         // pay out to legislators
-        OracleInterface.Bill memory b = getBill(_billId);
-        _payOutWinnings(b.sponsorAddress, legislaterPayout);
+        address sponsor = billOracle.getBillSponsorAddress(_billId);
+        _payOutWinnings(sponsor, legislaterPayout);
 
         // transfer the remainder to the house
         _transferToHouse();
@@ -238,17 +243,13 @@ contract Commitments is Ownable {
     /// @param _billId the id of the bill to check
     /// @return the outcome of the given bill
     function checkOutcome(bytes32 _billId) external onlyOwner returns (OracleInterface.BillOutcome)  {
-        OracleInterface.BillOutcome outcome;
+        OracleInterface.Bill memory b = getBill(_billId);
 
-        OracleInterface.Bill memory b = billOracle.getBill(_billId);
-
-        if (b.outcome != OracleInterface.BillOutcome.Pending) {
-            if (!billPaidOut[_billId]) {
-                _payOutForBill(_billId, outcome);
-            }
+        if (b.outcome != OracleInterface.BillOutcome.Pending && !billPaidOut[_billId]) {
+            _payOutForBill(_billId, b.outcome);
         }
 
-        return outcome;
+        return b.outcome;
     }
 
 

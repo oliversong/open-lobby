@@ -35,7 +35,7 @@ abstract contract OracleInterface {
 
     function getMostRecentBill(bool _pending) public virtual view returns (Bill memory);
 
-    function testConnection() public virtual pure returns (bool);
+    function getBillSponsorAddress(bytes32 _billId) public virtual view returns (address);
 
-    function addTestData() public virtual;
+    function testConnection() public virtual pure returns (bool);
 }

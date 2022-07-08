@@ -86,13 +86,8 @@ contract BillOracle is Ownable {
     }
 
     function billIsPending(bytes32 _billId) public view returns (bool) {
-        if (bills.length == 0) {
-          return false;
-        }
-        uint index = billIdToIndex[_billId];
-        if (index <= 0) {
-            return false;
-        }
+        require(billExists(_billId));
+        uint index = _getBillIndex(_billId);
         Bill memory b = bills[index];
         if (b.outcome == BillOutcome.Pending) {
           return true;
@@ -215,6 +210,11 @@ contract BillOracle is Ownable {
         return getBill(billId);
     }
 
+    function getBillSponsorAddress(bytes32 _billId) public view returns (address) {
+        require(billExists(_billId), "Bill does not exist");
+        return bills[_getBillIndex(_billId)].sponsorAddress;
+    }
+
     /// @notice can be used by a client contract to ensure that they've connected to this contract interface successfully
     /// @return true, unconditionally
     function testConnection() public pure returns (bool) {
@@ -227,14 +227,17 @@ contract BillOracle is Ownable {
         return address(this);
     }
 
+    function makeTestAddress() external onlyOwner returns (address) {
+        return address(uint256(keccak256(abi.encodePacked(now))));
+    }
+
     /// @notice for testing
     function addTestData() external onlyOwner {
-        address testAddress = address(uint256(keccak256(abi.encodePacked(now))));
-        addBill("", "George Clooney", testAddress, DateLib.DateTime(2022, 1, 20, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to do the thing", "m23t4930gj");
-        addBill("", "Bill Nye", testAddress, DateLib.DateTime(2022, 5, 20, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to do the other thing", "r30t294gr");
-        addBill("", "Adam Driver", testAddress, DateLib.DateTime(2022, 1, 19, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to do the other other thing", "i230t94jgre");
-        addBill("0m23t4930gj", "Sean Livingston", testAddress, DateLib.DateTime(2022, 5, 10, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to roll back the thing", "m23t4930gj");
-        addBill("", "Sanjit Biswas", testAddress, DateLib.DateTime(2021, 1, 20, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to make money", "42tg90jg");
-        addBill("", "John Bicket", testAddress, DateLib.DateTime(2021, 2, 20, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to build it", "gjeotw5990");
+        addBill("", "George Clooney", makeTestAddress(), DateLib.DateTime(2022, 1, 20, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to do the thing", "m23t4930gj");
+        addBill("", "Bill Nye", makeTestAddress(), DateLib.DateTime(2022, 5, 20, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to do the other thing", "r30t294gr");
+        addBill("", "Adam Driver", makeTestAddress(), DateLib.DateTime(2022, 1, 19, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to do the other other thing", "i230t94jgre");
+        addBill("0m23t4930gj", "Sean Livingston", makeTestAddress(), DateLib.DateTime(2022, 5, 10, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to roll back the thing", "m23t4930gj");
+        addBill("", "Sanjit Biswas", makeTestAddress(), DateLib.DateTime(2021, 1, 20, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to make money", "42tg90jg");
+        addBill("", "John Bicket", makeTestAddress(), DateLib.DateTime(2021, 2, 20, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to build it", "gjeotw5990");
     }
 }
