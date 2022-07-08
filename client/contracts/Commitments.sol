@@ -172,7 +172,7 @@ contract Commitments is Ownable {
         }
 
         // take out house cut
-        return winningAmount - winningAmount * housePercentage / 100;
+        return winningAmount - winningAmount.mul(housePercentage).div(100);
     }
 
     /// @notice calculates how much to pay out to each winner, then pays each winner the appropriate amount
