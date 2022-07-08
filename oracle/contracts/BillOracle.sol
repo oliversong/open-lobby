@@ -227,7 +227,7 @@ contract BillOracle is Ownable {
         return address(this);
     }
 
-    function makeTestAddress() external onlyOwner returns (address) {
+    function makeTestAddress() private view onlyOwner returns (address) {
         return address(uint256(keccak256(abi.encodePacked(now))));
     }
 
