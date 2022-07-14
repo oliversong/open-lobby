@@ -22,6 +22,8 @@ contract Commitments is Ownable {
     uint internal minimumCommitment = 1000000000000;  // 1000 gwei
     uint internal housePercentage = 2;
 
+    event Transferral(address, address, uint);
+
     using SafeMath for uint;
 
     struct Commitment {
@@ -125,10 +127,12 @@ contract Commitments is Ownable {
     }
 
     function _payOutWinnings(address _user, uint _amount) private {
+        emit Transferral(address(this), _user, _amount);
         payable(_user).transfer(_amount);
     }
 
     function _transferToHouse() private {
+        emit Transferral(address(this), owner, address(this).balance);
         payable(owner).transfer(address(this).balance);
     }
 
@@ -220,21 +224,25 @@ contract Commitments is Ownable {
         }
 
         // calculate legislator payout
-        uint legislaterPayout = 0;
+        uint legislatorPayout = 0;
         if (_outcome == OracleInterface.BillOutcome.BecameLaw) {
             // legislator gets support total
-            legislaterPayout = winningTotal;
+            legislatorPayout = winningTotal;
         }
 
 
         // pay out to users
         for (uint n = 0; n < payouts.length; n++) {
-            _payOutWinnings(commitments[n].user, payouts[n]);
+            if (payouts[n] != 0) {
+                _payOutWinnings(commitments[n].user, payouts[n]);
+            }
         }
 
         // pay out to legislators
-        address sponsor = billOracle.getBillSponsorAddress(_billId);
-        _payOutWinnings(sponsor, legislaterPayout);
+        if (legislatorPayout != 0) {
+            address sponsor = billOracle.getBillSponsorAddress(_billId);
+            _payOutWinnings(sponsor, legislatorPayout);
+        }
 
         // transfer the remainder to the house
         _transferToHouse();

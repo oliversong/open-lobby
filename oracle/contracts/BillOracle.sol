@@ -233,11 +233,11 @@ contract BillOracle is Ownable {
 
     /// @notice for testing
     function addTestData() external onlyOwner {
-        addBill("", "George Clooney", makeTestAddress(), DateLib.DateTime(2022, 1, 20, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to do the thing", "m23t4930gj");
-        addBill("", "Bill Nye", makeTestAddress(), DateLib.DateTime(2022, 5, 20, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to do the other thing", "r30t294gr");
-        addBill("", "Adam Driver", makeTestAddress(), DateLib.DateTime(2022, 1, 19, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to do the other other thing", "i230t94jgre");
-        addBill("0m23t4930gj", "Sean Livingston", makeTestAddress(), DateLib.DateTime(2022, 5, 10, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to roll back the thing", "m23t4930gj");
-        addBill("", "Sanjit Biswas", makeTestAddress(), DateLib.DateTime(2021, 1, 20, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to make money", "42tg90jg");
-        addBill("", "John Bicket", makeTestAddress(), DateLib.DateTime(2021, 2, 20, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to build it", "gjeotw5990");
+        addBill("", "George Clooney", address(this), DateLib.DateTime(2022, 1, 20, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to do the thing", "m23t4930gj");
+        addBill("", "Bill Nye", address(this), DateLib.DateTime(2022, 5, 20, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to do the other thing", "r30t294gr");
+        addBill("", "Adam Driver", address(this), DateLib.DateTime(2022, 1, 19, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to do the other other thing", "i230t94jgre");
+        addBill("0m23t4930gj", "Sean Livingston", address(this), DateLib.DateTime(2022, 5, 10, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to roll back the thing", "m23t4930gj");
+        addBill("", "Sanjit Biswas", address(this), DateLib.DateTime(2021, 1, 20, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to make money", "42tg90jg");
+        addBill("", "John Bicket", address(this), DateLib.DateTime(2021, 2, 20, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to build it", "gjeotw5990");
     }
 }
