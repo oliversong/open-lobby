@@ -233,11 +233,13 @@ contract BillOracle is Ownable {
 
     /// @notice for testing
     function addTestData() external onlyOwner {
-        addBill("", "George Clooney", address(this), DateLib.DateTime(2022, 1, 20, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to do the thing", "m23t4930gj");
-        addBill("", "Bill Nye", address(this), DateLib.DateTime(2022, 5, 20, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to do the other thing", "r30t294gr");
-        addBill("", "Adam Driver", address(this), DateLib.DateTime(2022, 1, 19, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to do the other other thing", "i230t94jgre");
-        addBill("0m23t4930gj", "Sean Livingston", address(this), DateLib.DateTime(2022, 5, 10, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to roll back the thing", "m23t4930gj");
-        addBill("", "Sanjit Biswas", address(this), DateLib.DateTime(2021, 1, 20, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to make money", "42tg90jg");
-        addBill("", "John Bicket", address(this), DateLib.DateTime(2021, 2, 20, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to build it", "gjeotw5990");
+        address testLegislator = 0x6CeB680a1bF3CBaf2C480ca7061Ca8207e5d1e83;
+        // address testLegislator = 0x4DCd6ddFDBFF54CB7855C5eF1E039A3D8C8d7D01;
+        addBill("", "George Clooney", testLegislator, DateLib.DateTime(2022, 1, 20, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to do the thing", "m23t4930gj");
+        addBill("", "Bill Nye", testLegislator, DateLib.DateTime(2022, 5, 20, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to do the other thing", "r30t294gr");
+        addBill("", "Adam Driver", testLegislator, DateLib.DateTime(2022, 1, 19, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to do the other other thing", "i230t94jgre");
+        addBill("0m23t4930gj", "Sean Livingston", testLegislator, DateLib.DateTime(2022, 5, 10, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to roll back the thing", "m23t4930gj");
+        addBill("", "Sanjit Biswas", testLegislator, DateLib.DateTime(2021, 1, 20, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to make money", "42tg90jg");
+        addBill("", "John Bicket", testLegislator, DateLib.DateTime(2021, 2, 20, 0, 0, 0, 0, 0).toUnixTimestamp(), "", "", 0, "Proposal to build it", "gjeotw5990");
     }
 }
