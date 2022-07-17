@@ -13,7 +13,6 @@ contract Commitments is Ownable {
     mapping(address => bytes32[]) private userToCommitments;
     mapping(bytes32 => Commitment[]) private billToCommitments;
     mapping(bytes32 => bool) internal billPaidOut;
-    Payout[] payouts;
 
     // bill outcomes oracle
     address internal billOracleAddr = address(0);
@@ -32,11 +31,6 @@ contract Commitments is Ownable {
         bytes32 billId;
         uint amount;
         bool inSupport;
-    }
-
-    struct Payout{
-        address user;
-        uint amount;
     }
 
     /// @notice determines whether or not the user has already committed to the given bill
@@ -134,16 +128,12 @@ contract Commitments is Ownable {
 
     function _payOutWinnings(address _user, uint _amount) private {
         emit Transferral(address(this), _user, _amount);
-        if (_amount != 0) {
-            payable(_user).transfer(_amount);
-        }
+        payable(_user).transfer(_amount);
     }
 
     function _transferToHouse() private {
         emit Transferral(address(this), owner, address(this).balance);
-        if (address(this).balance != 0) {
-            payable(owner).transfer(address(this).balance);
-        }
+        payable(owner).transfer(address(this).balance);
     }
 
     function _isWinningCommitment(OracleInterface.BillOutcome _outcome, bool inSupport) private pure returns (bool) {
@@ -192,15 +182,15 @@ contract Commitments is Ownable {
     /// @notice calculates how much to pay out to each winner, then pays each winner the appropriate amount
     /// @param _billId the unique id of the bill
     /// @param _outcome the bill's outcome
-    function _generatePayouts(bytes32 _billId, OracleInterface.BillOutcome _outcome) private {
+    function _payOutForBill(bytes32 _billId, OracleInterface.BillOutcome _outcome) private {
         require(_outcome != OracleInterface.BillOutcome.Pending);
 
         Commitment[] storage commitments = billToCommitments[_billId];
         uint losingTotal = 0;
         uint winningTotal = 0;
-        uint totalPot = 0;
+        uint[] memory payouts = new uint[](commitments.length);
 
-        // count winning commitments & get total
+        //count winning commitments & get total
         for (uint n = 0; n < commitments.length; n++) {
             uint amount = commitments[n].amount;
             if (_isWinningCommitment(_outcome, commitments[n].inSupport)) {
@@ -209,64 +199,65 @@ contract Commitments is Ownable {
                 losingTotal = losingTotal.add(amount);
             }
         }
-        totalPot = losingTotal.add(winningTotal);
 
-        // calculate user payouts
+        //calculate payouts
         for (uint n = 0; n < commitments.length; n++) {
-            address targetUserAddress = commitments[n].user;
             if (_outcome == OracleInterface.BillOutcome.BecameLaw) {
                 // in the passing case, supporters get detractors' commitments
                 // minus their own commitment, which goes to legislator
                 if (_isWinningCommitment(_outcome, commitments[n].inSupport)) {
-                    uint payoutAmount = _calculatePayout(winningTotal, totalPot, commitments[n].amount, false);
-                    payouts.push(Payout(targetUserAddress, payoutAmount));
+                    payouts[n] = _calculatePayout(winningTotal, losingTotal, commitments[n].amount, false);
+                } else {
+                    payouts[n] = 0;
                 }
             } else {
                 // in the rejected case, detractors get supporters' commitments
                 // plus their own back. Legislators get nothing.
                 if (_isWinningCommitment(_outcome, commitments[n].inSupport)) {
-                    uint payoutAmount = _calculatePayout(winningTotal, totalPot, commitments[n].amount, true);
-                    payouts.push(Payout(targetUserAddress, payoutAmount));
+                    payouts[n] = _calculatePayout(winningTotal, losingTotal, commitments[n].amount, true);
+                } else {
+                    payouts[n] = 0;
                 }
             }
         }
 
         // calculate legislator payout
+        uint legislatorPayout = 0;
         if (_outcome == OracleInterface.BillOutcome.BecameLaw) {
             // legislator gets support total
-            address sponsor = billOracle.getBillSponsorAddress(_billId);
-            payouts.push(Payout(sponsor, winningTotal));
+            legislatorPayout = winningTotal;
         }
 
-        // mark bill as paid out. Not actually paid out yet, but awaiting
-        // second function call. Here to prevent double sends.
-        billPaidOut[_billId] = true;
-    }
 
-
-    /// @notice pays users
-    function sendPendingPayouts() external onlyOwner {
         // pay out to users
         for (uint n = 0; n < payouts.length; n++) {
-            _payOutWinnings(payouts[n].user, payouts[n].amount);
+            if (payouts[n] != 0) {
+                _payOutWinnings(commitments[n].user, payouts[n]);
+            }
+        }
+
+        // pay out to legislators
+        if (legislatorPayout != 0) {
+            address sponsor = billOracle.getBillSponsorAddress(_billId);
+            _payOutWinnings(sponsor, legislatorPayout);
         }
 
         // transfer the remainder to the house
         _transferToHouse();
 
-        // empty the payouts array
-        delete payouts;
+        // mark bill as paid out
+        billPaidOut[_billId] = true;
     }
 
 
     /// @notice check the outcome of the given bill; if ready, will trigger calculation of payout, and actual payout to winners
     /// @param _billId the id of the bill to check
     /// @return the outcome of the given bill
-    function checkOutcomeAndGeneratePayouts(bytes32 _billId) external onlyOwner returns (OracleInterface.BillOutcome)  {
+    function checkOutcome(bytes32 _billId) external onlyOwner returns (OracleInterface.BillOutcome)  {
         OracleInterface.Bill memory b = getBill(_billId);
 
         if (b.outcome != OracleInterface.BillOutcome.Pending && !billPaidOut[_billId]) {
-            _generatePayouts(_billId, b.outcome);
+            _payOutForBill(_billId, b.outcome);
         }
 
         return b.outcome;
