@@ -1,0 +1,30 @@
+.Bill {
+  text-align: left;
+  border: 1px solid #CCC;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  margin: 30px;
+}
+
+.Bill-id, .Bill-sponsorAddress {
+  display: none;
+}
+
+.Bill--pending {
+  border-color: #F7CA18;
+}
+
+.Bill--becameLaw {
+  border-color: #26C281;
+}
+
+.Bill--rejected {
+  border-color: #CF3A24;
+}
+
+.Bill-title {
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
