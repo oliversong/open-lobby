@@ -10,16 +10,16 @@ const OutcomesEnum = ['In Progress', 'Became Law', 'Rejected'];
 const dateFormat = 'MMM D, YYYY';
 
 const parseCommitmentsData = (coms) => {
-  let totalSupporting = 0
-  let peopleSupporting = 0
-  let totalAgainst = 0
-  let peopleAgainst = 0
+  let totalSupporting = ethers.BigNumber.from(0);
+  let peopleSupporting = 0;
+  let totalAgainst = ethers.BigNumber.from(0);
+  let peopleAgainst = 0;
   coms.forEach((c) => {
     if (c.inSupport) {
-      totalSupporting += c.amount;
+      totalSupporting = totalSupporting.add(c.amount);
       peopleSupporting += 1;
     } else {
-      totalAgainst += c.amount;
+      totalAgainst = totalAgainst.add(c.amount);
       peopleAgainst += 1;
     }
   })
