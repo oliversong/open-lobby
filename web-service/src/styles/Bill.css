@@ -3,8 +3,17 @@
   border: 1px solid #CCC;
   padding: 30px;
   display: flex;
-  flex-direction: column;
   margin: 30px;
+  width: 70%;
+  max-width: 1000px;
+  min-width: 500px;
+  justify-content: space-around;
+}
+
+.Bill-info {
+  display: flex;
+  flex-direction: column;
+  padding-right: 1rem;
 }
 
 .Bill-id, .Bill-sponsorAddress {
@@ -27,4 +36,66 @@
   font-weight: bold;
   font-size: 1.5rem;
   margin-bottom: 1rem;
+}
+
+.Bill-outcome {
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+
+.Bill--pending .Bill-outcome {
+  color: #F7CA18;
+}
+
+.Bill--becameLaw .Bill-outcome {
+  color: #26C281;
+}
+
+.Bill--rejected .Bill-outcome {
+  color: #CF3A24;
+}
+
+.Bill-commitments {
+  display: flex;
+  flex-direction: column;
+}
+
+.Commitments {
+  display: flex;
+}
+
+.Commitments-supporting, .Commitments-against {
+  padding: 0.5rem;
+}
+
+.Commitments-totalSupporting {
+  font-size: 1.5rem;
+  color: #FFF;
+  background-color: #26C281;
+  padding: 0.5rem;
+}
+
+.Commitments-totalAgainst {
+  font-size: 1.5rem;
+  color: #FFF;
+  background-color: #CF3A24;
+  padding: 0.5rem;
+}
+.Commitments-countSupporting, .Commitments-countAgainst {
+  font-size: 0.85rem;
+  padding: 0.5rem;
+}
+
+.YourCommitment {
+  padding: 0.5rem;
+}
+
+.PlaceCommitment {
+  padding: 0.5rem;
+}
+
+.PlaceCommitment-button {
+  padding: 0.5rem;
+  margin-top:0.5rem;
 }

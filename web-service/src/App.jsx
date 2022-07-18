@@ -7,6 +7,8 @@ import secrets from './secrets.json'
 
 import './styles/App.css';
 
+export const UserContext = React.createContext(null);
+
 class App extends Component {
   constructor() {
     super();
@@ -16,6 +18,7 @@ class App extends Component {
       commitmentsContract: null,
       oracleContract: null,
       bills: null,
+      userAddress: null,
     };
   }
 
@@ -36,13 +39,18 @@ class App extends Component {
     };
   }
 
+  async addCommitments(bill) {
+
+  }
+
   async componentDidMount() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     await provider.send("eth_requestAccounts", []);
     const signer = provider.getSigner();
+    const userAddress = await signer.getAddress();
 
     const commitmentsContract = new ethers.Contract(
-      secrets.commitmentsAddress, Commitments.abi, provider
+      secrets.commitmentsAddress, Commitments.abi, signer
     );
     const oracleContract = new ethers.Contract(
       secrets.oracleAddress, BillOracle.abi, provider
@@ -50,7 +58,13 @@ class App extends Component {
 
     const billIds = await oracleContract.getAllBills();
     const billData = await Promise.all(billIds.map(b => oracleContract.getBill(b)));
-    const bills = billData.map(d => this.parseBill(d));
+    let bills = billData.map(b => this.parseBill(b));
+    const billsCommitments = await Promise.all(bills.map(b => commitmentsContract.getBillCommitments(b.id)));
+
+    bills = bills.map((b, i) => ({
+      ...b,
+      commitments: billsCommitments[i],
+    }));
 
     this.setState({
       provider,
@@ -58,6 +72,7 @@ class App extends Component {
       commitmentsContract,
       oracleContract,
       bills,
+      userAddress,
     });
   }
 
@@ -71,10 +86,14 @@ class App extends Component {
     }
 
     return (
-      <div className="App">
-        <h1>OpenLobby</h1>
-        { this.state.bills.map(b => <Bill {...b} />)}
-      </div>
+      <UserContext.Provider value={this.state.userAddress}>
+        <div className="App">
+          <h1>OpenLobby</h1>
+          <div className="Bills">
+            { this.state.bills.map(b => <Bill {...b} cc={this.state.commitmentsContract} />)}
+          </div>
+        </div>
+      </UserContext.Provider>
     );
   }
 }
