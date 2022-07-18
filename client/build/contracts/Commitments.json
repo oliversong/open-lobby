@@ -56,8 +56,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -83,8 +82,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -160,8 +158,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [],
@@ -231,8 +228,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [],
@@ -245,8 +241,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -287,8 +282,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -312,8 +306,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -336,8 +329,7 @@
       "name": "placeCommitment",
       "outputs": [],
       "stateMutability": "payable",
-      "type": "function",
-      "payable": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -388,8 +380,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [],
@@ -402,8 +393,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     }
   ],
   "metadata": "{\"compiler\":{\"version\":\"0.8.14+commit.80d49f37\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"Transferral\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"_billId\",\"type\":\"bytes32\"}],\"name\":\"checkOutcome\",\"outputs\":[{\"internalType\":\"enum OracleInterface.BillOutcome\",\"name\":\"\",\"type\":\"uint8\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"_billId\",\"type\":\"bytes32\"}],\"name\":\"getBill\",\"outputs\":[{\"components\":[{\"internalType\":\"bytes32\",\"name\":\"id\",\"type\":\"bytes32\"},{\"internalType\":\"string\",\"name\":\"amendsBill\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"sponsor\",\"type\":\"string\"},{\"internalType\":\"address\",\"name\":\"sponsorAddress\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"dateOfIntroduction\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"committees\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"latestAction\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"latestActionDate\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"title\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"legislationNumber\",\"type\":\"string\"},{\"internalType\":\"enum OracleInterface.BillOutcome\",\"name\":\"outcome\",\"type\":\"uint8\"}],\"internalType\":\"struct OracleInterface.Bill\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"_billId\",\"type\":\"bytes32\"}],\"name\":\"getBillCommitments\",\"outputs\":[{\"components\":[{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"internalType\":\"bytes32\",\"name\":\"billId\",\"type\":\"bytes32\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"inSupport\",\"type\":\"bool\"}],\"internalType\":\"struct Commitments.Commitment[]\",\"name\":\"\",\"type\":\"tuple[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getCommitableBills\",\"outputs\":[{\"internalType\":\"bytes32[]\",\"name\":\"\",\"type\":\"bytes32[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getMostRecentBill\",\"outputs\":[{\"components\":[{\"internalType\":\"bytes32\",\"name\":\"id\",\"type\":\"bytes32\"},{\"internalType\":\"string\",\"name\":\"amendsBill\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"sponsor\",\"type\":\"string\"},{\"internalType\":\"address\",\"name\":\"sponsorAddress\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"dateOfIntroduction\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"committees\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"latestAction\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"latestActionDate\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"title\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"legislationNumber\",\"type\":\"string\"},{\"internalType\":\"enum OracleInterface.BillOutcome\",\"name\":\"outcome\",\"type\":\"uint8\"}],\"internalType\":\"struct OracleInterface.Bill\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getOracleAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"_billId\",\"type\":\"bytes32\"}],\"name\":\"getUserCommitment\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"inSupport\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getUserCommitments\",\"outputs\":[{\"internalType\":\"bytes32[]\",\"name\":\"\",\"type\":\"bytes32[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_amount\",\"type\":\"uint256\"},{\"internalType\":\"bytes32\",\"name\":\"_billId\",\"type\":\"bytes32\"},{\"internalType\":\"bool\",\"name\":\"_inSupport\",\"type\":\"bool\"}],\"name\":\"placeCommitment\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_oracleAddress\",\"type\":\"address\"}],\"name\":\"setOracleAddress\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"testOracleConnection\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"author\":\"Oliver Song\",\"kind\":\"dev\",\"methods\":{\"checkOutcome(bytes32)\":{\"params\":{\"_billId\":\"the id of the bill to check\"},\"returns\":{\"_0\":\"the outcome of the given bill\"}},\"getBill(bytes32)\":{\"params\":{\"_billId\":\"the id of the desired bill\"}},\"getBillCommitments(bytes32)\":{\"params\":{\"_billId\":\"the id of the desired bill\"},\"returns\":{\"_0\":\"array of Commitments\"}},\"getCommitableBills()\":{\"returns\":{\"_0\":\"array of bill ids\"}},\"getOracleAddress()\":{\"returns\":{\"_0\":\"the address of the currently set oracle\"}},\"getUserCommitment(bytes32)\":{\"params\":{\"_billId\":\"the id of the desired bill\"},\"returns\":{\"amount\":\"commitment amount, or 0 if no commitment found\",\"inSupport\":\"in support of bill or not, or 0 if no commitment found\"}},\"getUserCommitments()\":{\"returns\":{\"_0\":\"array of bill ids\"}},\"placeCommitment(uint256,bytes32,bool)\":{\"params\":{\"_amount\":\"the id of the bill on which to commitment\",\"_billId\":\"the id of the bill on which to commitment\",\"_inSupport\":\"commitment in favor of bill passing (vs against)\"}},\"setOracleAddress(address)\":{\"details\":\"setting a wrong address may result in false return value, or error\",\"params\":{\"_oracleAddress\":\"the address of the oracle\"},\"returns\":{\"_0\":\"true if connection to the new oracle address was successful\"}},\"testOracleConnection()\":{\"returns\":{\"_0\":\"true if connection successful\"}},\"transferOwnership(address)\":{\"details\":\"Allows the current owner to transfer control of the contract to a newOwner.\",\"params\":{\"newOwner\":\"The address to transfer ownership to.\"}}},\"title\":\"Commitments\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"checkOutcome(bytes32)\":{\"notice\":\"check the outcome of the given bill; if ready, will trigger calculation of payout, and actual payout to winners\"},\"getBill(bytes32)\":{\"notice\":\"returns the full data of the specified bill\"},\"getBillCommitments(bytes32)\":{\"notice\":\"gets the current commitments for the bill\"},\"getCommitableBills()\":{\"notice\":\"gets a list ids of all currently commitable bill\"},\"getMostRecentBill()\":{\"notice\":\"returns the full data of the most recent commitable bill\"},\"getOracleAddress()\":{\"notice\":\"gets the address of the oracle being used\"},\"getUserCommitment(bytes32)\":{\"notice\":\"gets a user's commitment\"},\"getUserCommitments()\":{\"notice\":\"gets the current bills on which the user has commitments\"},\"placeCommitment(uint256,bytes32,bool)\":{\"notice\":\"places a non-rescindable commitment on the given bill\"},\"setOracleAddress(address)\":{\"notice\":\"sets the address of the oracle contract to use\"},\"testOracleConnection()\":{\"notice\":\"for testing; tests that the oracle is callable\"}},\"notice\":\"Takes commitments and handles payouts for bill outcomes\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/Commitments.sol\":\"Commitments\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/Commitments.sol\":{\"keccak256\":\"0xd7cc9a00ba737e987dfb80e0c87024ba79639cc6a83867ad580ad225cfddb831\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://77852c456baefd226413dce95795ef0ac19cd073a2f19019767da2bddf1ca380\",\"dweb:/ipfs/QmZkwGuKiiTK9XGTrLvg4BYY4QQEJ4bE9GCubTsNgQHMuF\"]},\"project:/contracts/OracleInterface.sol\":{\"keccak256\":\"0xb43b589abf31eb4af0226ca7ba73a993ed8b1e1c32ffff9dc8463099341b23a0\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://c8c3564ed9b66175c75cae5e45d6b3b6926be4b70e05899571c65c77beb437c1\",\"dweb:/ipfs/QmS4eDkoPPJEJ6obFyEdn9P8jXLaxFS7ssqZsz2KXy5bK4\"]},\"project:/contracts/Ownable.sol\":{\"keccak256\":\"0x36590ed9936e54f6bcf78724e37194bc81164251b3a8a511de2aec6068d22e1e\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://5b836d8766d0945a102b3eb7d5ef20e7c1f95ed4b681024d15b95a329dc62c85\",\"dweb:/ipfs/QmcBxMuUphyQ2pAaVEvDtNF7fZ5PphHRw3JcBxVe7eXd5f\"]},\"project:/contracts/SafeMath.sol\":{\"keccak256\":\"0x1c40ff10e515e41f566c70340548c736bcf4a47dab402a5878b7785f5f3b7306\",\"urls\":[\"bzz-raw://81d9f9a7ffa2b8122635eedbd4667b5dfe27079e9b466194a60a0056e2a61123\",\"dweb:/ipfs/QmYbSdgLDaZbJBEVMKS2jVAstydzNvUVUjBYJLKskZrtcg\"]}},\"version\":1}",
@@ -21853,17 +21843,9 @@
     "name": "solc",
     "version": "0.8.14+commit.80d49f37.Emscripten.clang"
   },
-  "networks": {
-    "5777": {
-      "events": {},
-      "links": {},
-      "address": "0xF022C255e4B3bb4148BD1b44370054765B9caf9A",
-      "transactionHash": "0x94010616d00c425c8c4e237714bfc4805272bc28afa1c819179801dc6c0f132e"
-    }
-  },
+  "networks": {},
   "schemaVersion": "3.4.7",
-  "updatedAt": "2022-07-18T08:37:20.551Z",
-  "networkType": "ethereum",
+  "updatedAt": "2022-07-18T23:17:20.157Z",
   "devdoc": {
     "author": "Oliver Song",
     "kind": "dev",
