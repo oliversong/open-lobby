@@ -106,7 +106,7 @@ contract Commitments is Ownable {
         require(msg.value == _amount);
 
         // commitment must be above a certain minimum
-        require(msg.value >= minimumCommitment, "Commitment amount must be >= minimum commitment");
+        require(_amount >= minimumCommitment, "Commitment amount must be >= minimum commitment");
 
         // make sure that bill exists
         require(billOracle.billExists(_billId), "Specified bill not found");
@@ -119,7 +119,7 @@ contract Commitments is Ownable {
 
         // add the new commitment
         Commitment[] storage commitments = billToCommitments[_billId];
-        commitments.push(Commitment(msg.sender, _billId, msg.value, _inSupport));
+        commitments.push(Commitment(msg.sender, _billId, _amount, _inSupport));
 
         // add the mapping
         bytes32[] storage userCommitments = userToCommitments[msg.sender];

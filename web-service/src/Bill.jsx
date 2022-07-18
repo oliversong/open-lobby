@@ -81,8 +81,18 @@ class PlaceCommitment extends Component {
 
   async handleSubmit() {
     const amount = ethers.utils.parseUnits(this.state.amount, 'gwei');
-    let txn = await this.props.cc.placeCommitment(amount, this.props.billId, this.state.inSupport);
-    alert('Commitment placed');
+    // this is required
+    // for some reason https://ethereum.stackexchange.com/a/102617/104884
+    const overrides = {
+      value: amount
+    }
+    try {
+      await this.props.cc.placeCommitment(amount, this.props.billId, this.state.inSupport, overrides);
+      alert('Commitment placed');
+    } catch (err) {
+      console.log(err);
+      alert('Commitment must be at least 1000 gwei');
+    }
   }
 
   render() {
@@ -103,7 +113,7 @@ const YourCommitment = (props) => {
         <div>Your Commitment: {ethers.utils.formatEther(props.details.amount)} eth {props.details.inSupport ? "in support" : "against"}.</div>
       </div>
     );
-  } else {
+  } else if (props.outcome == 0){
     return (
       <div className="YourCommitment"><PlaceCommitment billId={props.billId } cc={props.cc} /></div>
     );
@@ -132,7 +142,12 @@ const Bill = (props) => (
     </div>
     <div className="Bill-commitments">
       <CommitmentStats {...parseCommitmentsData(props.commitments)} />
-      <YourCommitment billId={props.id} details={parseYourCommitment(props.commitments, useContext(UserContext))} cc={props.cc} />
+      <YourCommitment
+        billId={props.id}
+        details={parseYourCommitment(props.commitments, useContext(UserContext))}
+        cc={props.cc}
+        outcome={props.outcome}
+      />
     </div>
   </div>
 )
