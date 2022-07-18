@@ -48,7 +48,7 @@ const CommitmentStats = (props) => (
 
 const parseYourCommitment = (coms, userAddress) => {
   if (userAddress) {
-    const userCommitments = coms.filter((c) => c.user == userAddress);
+    const userCommitments = coms.filter((c) => c.user === userAddress);
     if (userCommitments.length) {
       return {
         inSupport: userCommitments[0].inSupport,
@@ -62,7 +62,7 @@ class PlaceCommitment extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      amount: 0,
+      amount: null,
       inSupport: false,
     };
 
@@ -98,7 +98,7 @@ class PlaceCommitment extends Component {
   render() {
     return (
       <div className="PlaceCommitment">
-      <div>Amount <input type="number" placeholder="100 gwei" value={this.state.amount} onChange={this.handleChange} /></div>
+      <div>Amount <input className="PlaceCommitment-amount" type="number" placeholder="1000 gwei" value={this.state.amount} onChange={this.handleChange} /></div>
         <div>In Support <input type="checkbox" onChange={this.handleChangeCheckbox} value={this.state.inSupport} /></div>
         <button className="PlaceCommitment-button" onClick={this.handleSubmit}>Place Commitment</button>
       </div>
@@ -113,7 +113,7 @@ const YourCommitment = (props) => {
         <div>Your Commitment: {ethers.utils.formatEther(props.details.amount)} eth {props.details.inSupport ? "in support" : "against"}.</div>
       </div>
     );
-  } else if (props.outcome == 0){
+  } else if (props.outcome === 0){
     return (
       <div className="YourCommitment"><PlaceCommitment billId={props.billId } cc={props.cc} /></div>
     );
@@ -122,9 +122,9 @@ const YourCommitment = (props) => {
 
 const Bill = (props) => (
   <div className={classNames('Bill', {
-    'Bill--pending': props.outcome == 0,
-    'Bill--becameLaw': props.outcome == 1,
-    'Bill--rejected': props.outcome == 2,
+    'Bill--pending': props.outcome === 0,
+    'Bill--becameLaw': props.outcome === 1,
+    'Bill--rejected': props.outcome === 2,
   })}>
     <div className="Bill-info">
       <div className="Bill-title">{props.title}</div>
