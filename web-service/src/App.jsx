@@ -78,11 +78,21 @@ class App extends Component {
 
   render() {
     if (!this.state.provider) {
-      return <div className="App"><h2>Connecting to Ethereum Testnet...</h2></div>;
+      return (
+        <div className="App">
+          <h1>OpenLobby</h1>
+          <h2>Connecting to Ethereum Testnet...</h2>
+        </div>
+      );
     }
 
     if (!this.state.bills) {
-      return <div className="App"><h2>Retrieving Bill Data...</h2></div>;
+      return(
+        <div className="App">
+          <h1>OpenLobby</h1>
+          <h2>Retrieving Bill Data...</h2>
+        </div>
+      );
     }
 
     return (

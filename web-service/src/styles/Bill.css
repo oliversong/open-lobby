@@ -5,7 +5,7 @@
   display: flex;
   margin: 30px;
   width: 70%;
-  max-width: 800px;
+  max-width: 1000px;
   min-width: 500px;
   justify-content: space-between;
 }
@@ -63,6 +63,7 @@
 
 .Commitments {
   display: flex;
+  align-self: flex-end;
 }
 
 .Commitments-supporting, .Commitments-against {
@@ -89,6 +90,8 @@
 
 .YourCommitment {
   padding: 0.5rem;
+  display: flex;
+  align-self: flex-end;
 }
 
 .PlaceCommitment {
