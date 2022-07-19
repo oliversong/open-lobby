@@ -82,6 +82,7 @@ class App extends Component {
         <div className="App">
           <h1>OpenLobby</h1>
           <h2>Connecting to Ethereum Testnet...</h2>
+          <div>Please set your Metamask to use <a href="https://www.alchemy.com/overviews/rinkeby-testnet" target="_blank">Rinkeby</a>!</div>
         </div>
       );
     }

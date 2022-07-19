@@ -110,7 +110,7 @@ const YourCommitment = (props) => {
   if (props.details) {
     return (
       <div className="YourCommitment">
-        <div>Your Commitment: {ethers.utils.formatEther(props.details.amount)} eth {props.details.inSupport ? "in support" : "against"}.</div>
+        <div><b>Your Commitment</b>: {ethers.utils.formatEther(props.details.amount)} eth {props.details.inSupport ? "in support" : "against"}.</div>
       </div>
     );
   } else if (props.outcome === 0){
@@ -129,14 +129,14 @@ const Bill = (props) => (
     <div className="Bill-info">
       <div className="Bill-title">{props.title}</div>
       <div className="Bill-metadata">
-        <div className="Bill-sponsor">Sponsor: {props.sponsor}</div>
-        <div className="Bill-number">Legislation Number: {props.legislationNumber}</div>
-        <div className="Bill-id">ID: {props.id}</div>
-        <div className="Bill-sponsorAddress">Sponsor Address: {props.sponsorAddress}</div>
-        <div className="Bill-doi">Date of Introduction: {moment(props.dateOfIntroduction).format(dateFormat)}</div>
-        <div className="Bill-latestAction">Latest Action: {props.latestAction} on {moment(props.latestActionDate).format(dateFormat)}</div>
-        <div className="Bill-committees">Committees: {props.committees || "None"}</div>
-        <div className="Bill-amends">Amends: {props.amendsBill || "None"}</div>
+        <div className="Bill-sponsor"><b>Sponsor</b>: {props.sponsor}</div>
+        <div className="Bill-number"><b>Legislation Number</b>: {props.legislationNumber}</div>
+        <div className="Bill-id"><b>ID</b>: {props.id}</div>
+        <div className="Bill-sponsorAddress"><b>Sponsor Address</b>: {props.sponsorAddress}</div>
+        <div className="Bill-doi"><b>Date of Introduction</b>: {moment(props.dateOfIntroduction).format(dateFormat)}</div>
+        <div className="Bill-latestAction"><b>Latest Action</b>: {props.latestAction} ({moment(props.latestActionDate).format(dateFormat)})</div>
+        <div className="Bill-committees"><b>Committees</b>: {props.committees || "None"}</div>
+        <div className="Bill-amends"><b>Amends</b>: {props.amendsBill || "None"}</div>
       </div>
       <div className="Bill-outcome">{OutcomesEnum[props.outcome]}</div>
     </div>
