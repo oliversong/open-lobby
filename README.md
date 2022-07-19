@@ -1,8 +1,8 @@
 # open-lobby
 
 Currently running on the Rinkeby Testnet:
-* [Oracle Contract](https://rinkeby.etherscan.io/address/0x59ef254f43329A6dcE7D0E968f9a89BFC66c46eB)
-* [Commitment Manager Contract](https://rinkeby.etherscan.io/address/0x932107e1eC73D10Da59AaD22148f69B59A78aAFC)
+* [Oracle Contract](https://rinkeby.etherscan.io/address/0x591A9b66722340a760b9287DDBa22BBFEE028CFb)
+* [Commitment Manager Contract](https://rinkeby.etherscan.io/address/0xC86d52268D772cEC8bb3DC157E18Bd132b99b35E)
 
 ### start the webserver
 ```

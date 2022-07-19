@@ -22158,6 +22158,12 @@
     "version": "0.8.14+commit.80d49f37.Emscripten.clang"
   },
   "networks": {
+    "4": {
+      "events": {},
+      "links": {},
+      "address": "0xC86d52268D772cEC8bb3DC157E18Bd132b99b35E",
+      "transactionHash": "0x246f213e3454b894738125720bf9ab17eb4c85806168541ad0fde1129624ba8d"
+    },
     "5777": {
       "events": {},
       "links": {},
@@ -22166,7 +22172,7 @@
     }
   },
   "schemaVersion": "3.4.7",
-  "updatedAt": "2022-07-19T01:25:48.537Z",
+  "updatedAt": "2022-07-19T01:47:51.798Z",
   "networkType": "ethereum",
   "devdoc": {
     "author": "Oliver Song",
