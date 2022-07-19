@@ -131,9 +131,9 @@ contract Commitments is Ownable {
         payable(_user).transfer(_amount);
     }
 
-    function _transferToHouse() private {
-        emit Transferral(address(this), owner, address(this).balance);
-        payable(owner).transfer(address(this).balance);
+    function _transferToHouse(uint _amount) private {
+        emit Transferral(address(this), owner, _amount);
+        payable(owner).transfer(_amount);
     }
 
     function _isWinningCommitment(OracleInterface.BillOutcome _outcome, bool inSupport) private pure returns (bool) {
@@ -230,9 +230,11 @@ contract Commitments is Ownable {
 
 
         // pay out to users
+        uint totalPaid = 0;
         for (uint n = 0; n < payouts.length; n++) {
             if (payouts[n] != 0) {
                 _payOutWinnings(commitments[n].user, payouts[n]);
+                totalPaid = totalPaid.add(payouts[n]);
             }
         }
 
@@ -243,7 +245,8 @@ contract Commitments is Ownable {
         }
 
         // transfer the remainder to the house
-        _transferToHouse();
+        uint houseCut = losingTotal.add(winningTotal).sub(totalPaid).sub(legislatorPayout);
+        _transferToHouse(houseCut);
 
         // mark bill as paid out
         billPaidOut[_billId] = true;
