@@ -10,6 +10,12 @@ cd web-service
 npm start
 ```
 
+### rebuild for static hosting
+```
+npm run build
+service nginx restart
+```
+
 ### start the truffle webserver, open a console to the oracle
 ```
 cd oracle
